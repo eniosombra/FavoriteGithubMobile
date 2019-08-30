@@ -14,11 +14,11 @@ export const Form = styled.View`
 `;
 
 export const Input = styled.TextInput.attrs({
-  placeholderTextColor: '#999',
+  placeholderTextColor: '#004578',
 })`
   flex: 1;
   height: 40px;
-  background: #eee;
+  background: #cce6ff;
   border-radius: 4px;
   padding: 0 15px;
   border: 1px solid #eee;
@@ -27,7 +27,7 @@ export const Input = styled.TextInput.attrs({
 export const SubmitButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  background: #7159c1;
+  background: #0078d4;
   border-radius: 4px;
   margin-left: 10px;
   padding: 0 12px;
@@ -74,7 +74,7 @@ export const ProfileButton = styled(RectButton)`
   margin-top: 10px;
   align-self: stretch;
   border-radius: 4px;
-  background: #7159c1;
+  background: #0078d4;
   justify-content: center;
   align-items: center;
   height: 36px;
@@ -85,4 +85,8 @@ export const ProfileButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
+`;
+
+export const TitleApp = styled.Text`
+  font-size: 27px;
 `;

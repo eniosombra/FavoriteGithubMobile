@@ -37,7 +37,7 @@ export const Bio = styled.Text`
 `;
 
 export const Loading = styled.ActivityIndicator.attrs({
-  color: '#7159c1',
+  color: '#0078d4',
   size: 50,
 })`
   flex: 1;

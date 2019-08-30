@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Keyboard, ActivityIndicator} from 'react-native';
+import {Keyboard, ActivityIndicator, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconTitle from 'react-native-vector-icons/Feather';
 
 import api from '../../services/api';
 
@@ -19,11 +20,16 @@ import {
   Bio,
   ProfileButton,
   ProfileButtonText,
+  TitleApp,
 } from './styles';
 
 export default class Main extends Component {
   static navigationOptions = {
-    title: 'Usuários',
+    headerTitle: (
+      <IconTitle name="github" size={30} color="#FFF">
+        <TitleApp>Favorite Repo Github</TitleApp>
+      </IconTitle>
+    ),
   };
 
   state = {
@@ -59,19 +65,42 @@ export default class Main extends Component {
 
     this.setState({loading: true});
 
-    const response = await api.get(`/users/${newUser}`);
+    try {
+      const response = await api.get(`/users/${newUser}`);
 
-    console.tron.log('ok');
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+      });
+
+      Keyboard.dismiss();
+    } catch (error) {
+      Keyboard.dismiss();
+
+      this.setState({
+        loading: false,
+      });
+
+      Alert.alert('Usuário não encontrado no Github.');
+    }
+  };
+
+  handleDeleteUser = user => {
+    const {users} = this.state;
+    this.setState({loading: true});
+
+    const newUsers = users.filter(u => u.login !== user.login);
 
     this.setState({
-      users: [...users, data],
+      users: newUsers,
       newUser: '',
       loading: false,
     });
@@ -119,6 +148,12 @@ export default class Main extends Component {
 
               <ProfileButton onPress={() => this.handleNavigate(item)}>
                 <ProfileButtonText>Ver perfil</ProfileButtonText>
+              </ProfileButton>
+
+              <ProfileButton
+                backgroundColor="#ff5050"
+                onPress={() => this.handleDeleteUser(item)}>
+                <ProfileButtonText>Desvincular perfil</ProfileButtonText>
               </ProfileButton>
             </User>
           )}
